@@ -33,7 +33,10 @@ For more information, visit [the docs](https://docs.jumper.io).
             "sck": 3,
             "si": 4,
             "so": 28
-        }
+        },
+				"generators": {
+					"conversion": 1
+				}
       }
   }
   ```
