@@ -40,7 +40,7 @@ For more information, visit [the docs](https://docs.jumper.io).
      }
   }
   ```
-  - Use this "scenario.json" file for example (you can use data generator id 1 or 2):
+- Use this "scenario.json" file for example (you can use data generator id 1 or 2):
 
   ```json
   {
@@ -61,7 +61,7 @@ For more information, visit [the docs](https://docs.jumper.io).
             }
         }
     ]
-}
+  }
   ```
 
 ## License
