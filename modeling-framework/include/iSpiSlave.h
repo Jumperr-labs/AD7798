@@ -18,3 +18,5 @@ class iSpiSlaveV1 {
     virtual bool IsSsActive() = 0;
     virtual void Detach() = 0;
 };
+
+typedef iSpiSlaveV1 iSpiSlave;

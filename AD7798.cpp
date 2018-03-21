@@ -1,4 +1,4 @@
-#include "../include/AD7798.h"
+#include "AD7798.h"
 
 #include <cassert>
 #include <functional>

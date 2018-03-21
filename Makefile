@@ -1,9 +1,23 @@
-$(shell mkdir -p modeling-framework/AD7798/_build)
+CC=g++
+RM=rm
 
-modeling-framework/AD7798/_build/AD7798.o: modeling-framework/AD7798/src/AD7798.cpp
-	$(CC) -fPIC -c -o $@ $^ $(CFLAGS) -I./modeling-framework/AD7798/include -I./modeling-framework/include
+peripheral_name = AD7798
 
-modeling-framework/AD7798/_build/AD7798.so: modeling-framework/AD7798/_build/AD7798.o obj/src/core/ModelingFramework.o
+CFLAGS = -g -ggdb -std=c++11 -Werror -Wall -Wfatal-errors -Wno-shift-count-overflow -Weffc++ -Wno-non-virtual-dtor -Wno-strict-aliasing -Wno-unused-private-field -O3 -pthread -lutil
+
+$(shell mkdir -p _build)
+
+all: _build/$(peripheral_name).so
+
+_build/$(peripheral_name).o: $(peripheral_name).cpp
+	$(CC) -fPIC -c -o $@ $^ $(CFLAGS) -I./include -I./modeling-framework/include
+
+_build/ModelingFramework.o: modeling-framework/src/ModelingFramework.cpp
+	$(CC) -fPIC -c -o $@ $^ $(CFLAGS) -I./modeling-framework/include
+
+_build/$(peripheral_name).so: _build/$(peripheral_name).o _build/ModelingFramework.o
 	$(CC) -shared -o $@ $^
 
-AD7798: modeling-framework/AD7798/_build/AD7798.so
+.PHONY: clean
+clean:
+	$(RM) -rf _build
