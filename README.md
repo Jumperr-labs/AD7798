@@ -35,7 +35,7 @@ For more information, visit [the docs](https://docs.jumper.io).
             "so": 28
         },
 	"generators": {
-		"conversion": 1
+	    "conversion": 1
 	}
       }
   }
