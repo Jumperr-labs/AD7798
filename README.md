@@ -36,7 +36,7 @@ For more information, visit [the docs](https://docs.jumper.io).
         },
         "generators": {
             "conversion": 1
-	}
+        }
       }
   }
   ```
