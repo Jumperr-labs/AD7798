@@ -40,6 +40,29 @@ For more information, visit [the docs](https://docs.jumper.io).
      }
   }
   ```
+  - Use this "scenario.json" file for example (you can use data generator id 1 or 2):
+
+  ```json
+  {
+    "DataGenerators": [
+        {
+            "id": 1,
+            "type": "Constant",
+            "config": {
+                "value": 5412
+            }
+        },
+        {
+            "id": 2,
+            "type": "File",
+            "config": {
+                "path": "ad7798_input"
+                
+            }
+        }
+    ]
+}
+  ```
 
 ## License
 Licensed under the Apache License, Version 2.0. See the LICENSE file for more information
