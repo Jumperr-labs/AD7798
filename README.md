@@ -34,9 +34,9 @@ For more information, visit [the docs](https://docs.jumper.io).
             "si": 4,
             "so": 28
         },
-				"generators": {
-					"conversion": 1
-				}
+	"generators": {
+		"conversion": 1
+	}
       }
   }
   ```
