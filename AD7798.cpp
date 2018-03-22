@@ -1,4 +1,4 @@
-#include "AD7798.h"
+#include "../include/AD7798.h"
 
 #include <cassert>
 #include <functional>
@@ -155,10 +155,6 @@ void AD7798::Reset() {
     regs_[REG_IO]       = RESET_REG_IO;
     regs_[REG_OFFSET]   = RESET_REG_OFFSET;
 
-    if (continuous_read_timer_id_ != -1) {
-        CancelTimedCallback(continuous_read_timer_id_);
-        continuous_read_timer_id_ = -1;
-    }
     if (continuous_conversion_timer_id_ != -1) {
         CancelTimedCallback(continuous_conversion_timer_id_);
         continuous_conversion_timer_id_ = -1;
@@ -255,7 +251,7 @@ void AD7798::ComReadId() {
 
 void AD7798::ComReadMode() {
     DEBUG(__FUNCTION__);
-    uint8_t data[2] {(uint8_t)(regs_[REG_MODE] & 0xFF), (uint8_t)(regs_[REG_MODE] >> 8)};
+    uint8_t data[2] {(uint8_t)(regs_[REG_MODE] >> 8), (uint8_t)(regs_[REG_MODE] & 0xFF)};
     spi_slave_->Transmit(nullptr, data, 2);
     DEBUG("Reads from: regs_[REG_MODE] - " + std::to_string(regs_[REG_MODE]));
 }
@@ -288,10 +284,10 @@ void AD7798::ComWriteMode() {
 }
 
 void AD7798::ComReadStatus() {
-    DEBUG(__FUNCTION__);
+    //DEBUG(__FUNCTION__);
     auto data = (uint8_t) regs_[REG_STAT];
     spi_slave_->Transmit(nullptr, &data, 1);
-    DEBUG("regs_[REG_STAT] - " + std::to_string(data));
+    //DEBUG("regs_[REG_STAT] - " + std::to_string(data));
 }
 
 void AD7798::ComReadData() {
@@ -311,21 +307,16 @@ void AD7798::ComReadContinuous() {
     HandleContinuousReadMode();
 }
 
-void AD7798::StopContinuousRead() {
-    DEBUG(__FUNCTION__);
-    if (GetReady() == HIGH) return;
-    CancelTimedCallback(continuous_read_timer_id_);
-    continuous_read_timer_id_ = -1;
-}
-
 void AD7798::HandleContinuousReadMode() {
     DEBUG(__FUNCTION__);
     while (true) {
         uint8_t rx_buffer[2] {};
-        uint8_t tx_buffer[2] {(uint8_t)(regs_[REG_DATA] >> 8), (uint8_t)(regs_[REG_DATA] & 0xFF)};
+        uint8_t tx_buffer[2] { (uint8_t)(regs_[REG_DATA] >> 8), (uint8_t)(regs_[REG_DATA] & 0xFF) };
 
         const auto len = spi_slave_->Transmit(rx_buffer, tx_buffer, 2);
         if (len == 0) continue;
+        DEBUG("Reads from: regs_[REG_DATA] - " + std::to_string((regs_[REG_DATA] >> 8)));
+        DEBUG("Reads from: regs_[REG_DATA] - " + std::to_string((regs_[REG_DATA] & 0xFF)));
         DEBUG("Reads from: regs_[REG_DATA] - " + std::to_string(regs_[REG_DATA]));
 
         const uint8_t first_byte  = rx_buffer[0];
@@ -334,7 +325,6 @@ void AD7798::HandleContinuousReadMode() {
         /* Check if stop is called */
         if (first_byte == COM_READ_DATA || second_byte == COM_READ_DATA) {
             DEBUG("COM_READ_DATA - IN CONTINUOUS READ MODE");
-            StopContinuousRead();
             return;
         }
 
@@ -349,7 +339,3 @@ void AD7798::HandleContinuousReadMode() {
         /* * */
     }
 }
-
-
-
-

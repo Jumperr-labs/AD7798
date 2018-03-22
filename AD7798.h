@@ -17,7 +17,6 @@ class AD7798 : public ExternalPeripheral {
     bool should_stop_ {false};
     iSpiSlaveV1* spi_slave_ {};
     uint32_t regs_[8];
-    int continuous_read_timer_id_ {-1};
     int continuous_conversion_timer_id_ {-1};
     uint32_t four_previous_bytes_ {};
 
@@ -41,7 +40,6 @@ class AD7798 : public ExternalPeripheral {
     uint8_t GetReady();
     uint16_t ReadShort();
     void WriteShort(uint16_t);
-    void StopContinuousRead();
     void MainSwitch();
     void ReadData();
     void HandleContinuousReadMode();
