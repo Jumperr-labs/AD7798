@@ -315,8 +315,7 @@ void AD7798::HandleContinuousReadMode() {
 
         const auto len = spi_slave_->Transmit(rx_buffer, tx_buffer, 2);
         if (len == 0) continue;
-        DEBUG("Reads from: regs_[REG_DATA] - " + std::to_string((regs_[REG_DATA] >> 8)));
-        DEBUG("Reads from: regs_[REG_DATA] - " + std::to_string((regs_[REG_DATA] & 0xFF)));
+        
         DEBUG("Reads from: regs_[REG_DATA] - " + std::to_string(regs_[REG_DATA]));
 
         const uint8_t first_byte  = rx_buffer[0];
