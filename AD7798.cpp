@@ -48,7 +48,7 @@
 
 
 /* Print debug logs */
-#define PRINT_DEBUG
+//#define PRINT_DEBUG
 #ifdef PRINT_DEBUG
 #define DEBUG(x) std::cout << "AD7798: " + std::string(x) + "\n";
 #else
